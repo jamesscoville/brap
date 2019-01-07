@@ -1,0 +1,31 @@
+html,
+body,
+#root{
+  height: 100%;
+  width: 100%;
+}
+
+#root,
+.app,
+header,
+main{
+  display: flex;
+}
+
+.app{
+  flex-direction: column;
+}
+
+.app,
+header{
+  flex: 1;
+}
+
+header{
+  justify-content: space-between;
+}
+
+main{
+  flex: 15;
+  margin: 2rem 0;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 
-function WelcomeMessage() {
+function Branding() {
     return <h1>Brapp</h1>;
 }
 
-export default WelcomeMessage;
+export default Branding;

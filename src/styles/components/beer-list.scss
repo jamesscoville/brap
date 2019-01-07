@@ -1,0 +1,12 @@
+.beer-list{
+    display: flex;
+    flex: 1;
+    justify-content: space-around;
+    max-height: 30rem;
+    margin: 0 15rem;
+
+    .card{
+        min-width: 15rem;
+        max-width: 20rem;
+    }
+}

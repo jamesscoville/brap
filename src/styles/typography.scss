@@ -1,0 +1,11 @@
+body{
+  @extend %font-smoothing;
+  font-size: 62.5%;
+}
+
+h1{
+    color: $blue;
+    text-shadow: 1px 1px rgba(0,0,0,0.22);
+    margin: 0 1rem;
+    font-size: 3.25rem;
+}
