@@ -4,21 +4,19 @@ import WelcomeMessage from './modules/components/WelcomeMessage';
 import BeerList from './modules/components/BeerList';
 
 
-class App extends Component {
+export default class App extends Component {
   componentDidMount(){
   }
   render() {
     return (
       <div className="app">
-      <header>
-        <WelcomeMessage />
-      </header>
-      <main>
-        <BeerList />
-      </main>
+        <header>
+          <WelcomeMessage />
+        </header>
+        <main>
+          {/*<BeerList order="random" randomCount="3" />*/}
+        </main>
       </div>
     );
   }
 }
-
-export default App;

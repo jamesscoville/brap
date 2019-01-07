@@ -1,32 +1,30 @@
-.App {
-  text-align: center;
+html,
+body,
+#root{
+  height: 100%;
+  width: 100%;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+#root{
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.app{
+  display: flex;
+  flex: 1;
+  background: url("./images/beer_bg.jpeg") no-repeat;
+  background-size: cover;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+header{
+  display: flex;
+  flex: 1;
+  max-height: 5rem;
+  flex-direction: row;
+  background-color: #000;
+
+  h1{
+    color: #FFF;
   }
 }
