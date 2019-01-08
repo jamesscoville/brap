@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Image from "../elements/Image";
 import axios from 'axios';
 
 class BeerButton extends Component {
@@ -76,42 +77,63 @@ export default class BeerList extends Component {
             //component's ui itself but not worth the time.
             <div className="beer-list">
                 {beers.map((beer) =>{ 
-                    let id = beer.id,
-                        name = beer.name,
-                        img = beer.labels,
-                        information =  [{key:"ABV (Alcohol By Volume)", value:beer.abv},
-                                        {key:"IBU (International Bittering Units)", value:beer.ibu},
-                                        {key:"Glass", value:beer.glass},
-                                        {key:"Style", value:beer.style.name},
-                                        {key:"Food Pairings", value:beer.foodPairings},
-                                        {key:"Description", value:beer.description}];
-
                     return(
-                        <div className="card" key={id}>
+                        <div className="card" key={beer.id}>
                             <div className="content">
-                                <div className="image-container">
-                                    {(img.medium != null && img.medium.length > 0) ?
-                                    (<img src={img.medium} alt={name}/>) : 
-                                    null}
-                                </div>
-                                <h2>{name}</h2>
-                                <dl>
-                                    {information.map((info, i) => 
-                                        (info.value != null && info.value.length > 0) ?
-                                        (<React.Fragment key={id + i}>
-                                            <dt>{info.key}</dt>
-                                            <dd>{info.value}</dd>
-                                        </React.Fragment>) : null
-                                    )}
-                                </dl>
+                                {beer.labels ? <Image url={beer.labels.medium} alt={beer.name}/> : null}
+                                {beer.name ? <h2>{beer.name}</h2> : null}
+                                {beer.id ? <BeerInfo beer={beer} /> : null}
                             </div>
                             <div className="actions">
-                                <BeerButton BeerId={id}/>
+                                <BeerButton BeerId={beer.id}/>
                             </div>
                         </div>
                     )}
                 )}
             </div>
+        )
+    }
+}
+
+class BeerInfo extends Component {
+    constructor(props){
+        super(props);
+    }
+
+    render() {
+        return(
+            <dl key={this.props.beer.id}>
+                {
+                    (this.props.beer.abv) ?     
+                    (<React.Fragment><dt>ABV (Alcohol By Volume)</dt><dd>{this.props.beer.abv}</dd></React.Fragment>) :
+                    null
+                }
+                {
+                    (this.props.beer.ibu) ?     
+                    (<React.Fragment><dt>IBU (International Bittering Units)</dt><dd>{this.props.beer.ibu}</dd></React.Fragment>) :
+                    null
+                }
+                {
+                    (this.props.beer.glass) ?     
+                    (<React.Fragment><dt>Glass</dt><dd>{this.props.beer.glass.name}</dd></React.Fragment>) :
+                    null
+                }
+                {
+                    (this.props.beer.style) ?     
+                    (<React.Fragment><dt>Style</dt><dd>{this.props.beer.style.name}</dd></React.Fragment>) :
+                    null
+                }
+                {
+                    (this.props.beer.foodPairings) ?     
+                    (<React.Fragment><dt>Food Pairings</dt><dd>{this.props.beer.foodPairings}</dd></React.Fragment>) :
+                    null
+                }
+                {
+                    (this.props.beer.description) ?     
+                    (<React.Fragment><dt>Description</dt><dd>{this.props.beer.description}</dd></React.Fragment>) :
+                    null
+                }
+            </dl>
         )
     }
 }

@@ -3,9 +3,11 @@
     align-items: flex-start;
     flex: 1;
     justify-content: space-around;
+    max-width: 100rem;
     margin: 0 15rem;
 
     .card{
+        margin: 0 1rem;
         width: 17rem;
 
         .image-container{
@@ -19,4 +21,25 @@
             width: 100%;
         }
     }
+
+    //Some responsive stuff
+    @media only screen and (max-width: 1248px){
+        display: grid;
+        flex: none;
+        grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+        margin: 0;
+        max-width: 100%;
+        
+        .card{
+            flex: none;
+            margin: 0 0.5rem 1rem 0.5rem;
+            width: auto;
+
+            img{
+                display: block;
+                margin: 0 auto;
+            }
+        }
+    }
 }
+

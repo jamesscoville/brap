@@ -15,9 +15,13 @@
 @import "./styles/components/beer-list";
 @import "./styles/components/beer-selections";
 
+body{
+  background-color:  #85472e;
+}
+
 .app{
   animation: fadeIn 250ms ease-in-out forwards;
-  background: url("./images/beer_bg2.jpg") no-repeat;
+  background:  url("./images/beer_bg2.jpg") no-repeat;
   background-size: cover;
   background-position: center center;
   //arbitrary, will improve later
