@@ -1,4 +1,7 @@
 dl{
+    color: #1f1f1f;
+    font-size: 0.875rem;
+
     dt{
         font-weight: bold;
     }
@@ -6,5 +9,9 @@ dl{
     dt,
     dd{
         margin: 0;
+    }
+
+    dd{
+        margin-bottom: 0.75rem;
     }
 }

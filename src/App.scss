@@ -5,7 +5,9 @@
 //Base
 @import "./styles/layout";
 @import "./styles/typography";
+@import "./styles/animations";
 //Elements
+@import "./styles/elements/buttons";
 @import "./styles/elements/cards";
 @import "./styles/elements/header";
 @import "./styles/elements/lists";
@@ -14,9 +16,11 @@
 @import "./styles/components/beer-selections";
 
 .app{
+  animation: fadeIn 250ms ease-in-out forwards;
   background: url("./images/beer_bg2.jpg") no-repeat;
   background-size: cover;
   background-position: center center;
   //arbitrary, will improve later
-  min-height: 1400px;
+  min-height: 75rem;
 }
+

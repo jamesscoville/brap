@@ -1,12 +1,22 @@
 .beer-list{
     display: flex;
+    align-items: flex-start;
     flex: 1;
     justify-content: space-around;
-    max-height: 30rem;
     margin: 0 15rem;
 
     .card{
-        min-width: 15rem;
-        max-width: 20rem;
+        width: 17rem;
+
+        .image-container{
+            min-height: 15.25rem;
+        }
+
+        img{
+            animation: fadeIn 250ms 1s ease-in-out forwards;
+            margin: 0;
+            opacity: 0;
+            width: 100%;
+        }
     }
 }
