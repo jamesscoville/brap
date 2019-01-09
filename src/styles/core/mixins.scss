@@ -1,0 +1,9 @@
+//Similar to one I wrote in less recently but props to github.com/vajkri
+@mixin stagger-delay($i, $initial-delay, $stagger-delay, $type: animation) {
+	@while $i > 0 {
+		&:nth-of-type(#{$i}) {
+			#{$type}-delay: $initial-delay + $stagger-delay * $i;
+		}
+		$i: $i - 1;
+	}
+}

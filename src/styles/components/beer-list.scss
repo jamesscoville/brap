@@ -1,35 +1,48 @@
 .beer-list{
-    display: flex;
-    align-items: flex-start;
+    align-items: start;
+    display: grid;
     flex: 1;
-    justify-content: space-around;
-    max-width: 100rem;
-    margin: 0 15rem;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    grid-gap: 2rem;
+    grid-auto-rows: auto;
 
     .card{
-        margin: 0 1rem;
-        width: 17rem;
+        border-top: 4px solid $yellow;
 
-        .image-container{
-            min-height: 15.25rem;
-        }
-
-        img{
-            animation: fadeIn 250ms 1s ease-in-out forwards;
-            margin: 0;
-            opacity: 0;
-            width: 100%;
+        &:last-of-type{
+            margin-bottom: 2rem;
         }
     }
+    
+    //Cards permutation - not used
+    &.cards{
+        display: flex;
+        align-items: flex-start;
+        flex: 1;
+        justify-content: space-around;
+        max-width: 100rem;
+        margin: 0 15rem;
 
+        .card{
+            margin: 0 1rem;
+            width: 17rem;
+        }    
+    }
+
+    .image-container{
+        min-height: 15.25rem;
+    }
+
+    img{
+        animation: fadeIn 250ms 500ms ease-in-out forwards;
+        margin: 0;
+        opacity: 0;
+        width: 100%;
+    }
+
+    
     //Some responsive stuff
     @media only screen and (max-width: 1248px){
-        display: grid;
-        flex: none;
-        grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
-        margin: 0;
-        max-width: 100%;
-        
         .card{
             flex: none;
             margin: 0 0.5rem 1rem 0.5rem;

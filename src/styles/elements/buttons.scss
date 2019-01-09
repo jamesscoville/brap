@@ -1,20 +1,32 @@
 button{
-    background: $blue;
+    background: $yellow;
     border: 0;
     color: $white;
     cursor: pointer;
     font-size: 1rem;
     padding: 1rem;
-    text-align: center;
-    text-shadow: 1px 1px rgba(255,255,255,0.1);
+    text-align: left;
+    text-shadow: 1px 1px rgba(140, 66, 2, 0.596);
     transition: background 250ms ease-in-out;
     width: 100%;
 
     &:hover{
-        background: darken( $blue, 5% );
+        background: darken( $yellow, 4% );
     }
     
     &:focus{
         outline: none;
+    }
+}
+
+.beer-button{
+    i{
+        float: right;
+    }
+
+    &:hover{
+        i{
+            animation: beerShake 400ms ease-in-out;
+        }
     }
 }

@@ -3,11 +3,16 @@ body{
   font-size: 16px;
 }
 
+body, button{
+  font-family: 'Roboto', sans-serif;
+}
+
 h1{
-    color: $blue;
-    text-shadow: 1px 1px rgba(0,0,0,0.22);
+    color: $white;
+    font-family: 'Patua One', 'helvetica', cursive;
+    font-size: 4rem;
     margin: 0 1rem;
-    font-size: 3.25rem;
+    text-shadow: 2px 2px rgba(140, 66, 2, 0.438);
 }
 
 h2{

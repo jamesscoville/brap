@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import Image from "../elements/Image";
+import BeerButton from "../elements/BeerButton";
 import axios from 'axios';
 
-class BeerButton extends Component {
+class PaginationButton extends Component {
     constructor(props){
         super(props);
         this.handleClick = this.handleClick.bind(this);
     }
-
+    
     handleClick(e) {
         e.preventDefault();
-        console.log(this.props.BeerId);
+        this.props.paginate("next");
     }
 
-    render(){
-        return <button onClick={this.handleClick}>Select Beer</button>;
+    render() {
+        return <button className="pagination-button" onClick={this.handleClick}><i className="fas fa-arrow-circle-right"></i></button>
     }
 }
-
 export default class BeerList extends Component {
     constructor(props) {
         super(props);
@@ -27,7 +27,17 @@ export default class BeerList extends Component {
             beers: [],
             isLoading: false,
             error: null,
+            page: 1,
         };
+
+        this.paginate = this.paginate.bind(this);
+    }
+
+    paginate(){
+        this.setState((state) => {
+            return { page: state.page + 1}
+        });
+        this.componentDidMount();
     }
 
     componentDidMount() {    
@@ -48,8 +58,13 @@ export default class BeerList extends Component {
         if(this.props.hasLabels){
             apiQuery += "&hasLabels=" + this.props.hasLabels;
         }
+        //pagination
+        if(this.state.page){
+            apiQuery += "&p=" + this.state.page;
+        }
+
         //Take a look at the full query string
-        //console.log(apiQuery);
+        console.log(apiQuery);
 
         //Make Api Call and setState with results
         axios.get(apiQuery)
@@ -73,33 +88,49 @@ export default class BeerList extends Component {
         }
 
         return (
-            //Probably a better way to handle the data away from the 
-            //component's ui itself but not worth the time.
-            <div className="beer-list">
-                {beers.map((beer) =>{ 
-                    return(
-                        <div className="card" key={beer.id}>
-                            <div className="content">
-                                {beer.labels ? <Image url={beer.labels.medium} alt={beer.name}/> : null}
-                                {beer.name ? <h2>{beer.name}</h2> : null}
-                                {beer.id ? <BeerInfo beer={beer} /> : null}
-                            </div>
-                            <div className="actions">
-                                <BeerButton BeerId={beer.id}/>
-                            </div>
-                        </div>
-                    )}
-                )}
-            </div>
+            <React.Fragment>
+                <div className={this.props.type === "card" ? "beer-list cards" : "beer-list"}>
+                    {
+                        (this.props.type === "card") ?
+                        (beers.map((beer) =>{ 
+                            return(
+                                <div className="card" key={beer.id}>
+                                    <div className="content">
+                                        {beer.labels ? <Image url={beer.labels.medium} alt={beer.name}/> : null}
+                                        {beer.name ? <h2>{beer.name}</h2> : null}
+                                        {beer.id ? <BeerInfo beer={beer} /> : null}
+                                    </div>
+                                    <div className="actions">
+                                        <BeerButton BeerId={beer.id}/>
+                                    </div>
+                                </div>
+                            )}
+                        )) :
+                        (beers.map((beer) =>{
+                            return(
+                                <div className="card" key={beer.id}>
+                                    <div className="content"> 
+                                        {beer.labels ? <Image url={beer.labels.medium} alt={beer.name}/> : null}
+                                        {beer.name ? <h2>{beer.name}</h2> : null}
+                                    </div>
+                                    <div className="actions">
+                                        <BeerButton BeerId={beer.id}/>
+                                    </div>
+                                </div>
+                            )
+                        }))
+                    }
+                </div>
+                
+                <button className="pagination-button" onClick={this.paginate}>
+                    <i className="fas fa-arrow-circle-right"></i>
+                </button>
+            </React.Fragment>
         )
     }
 }
 
 class BeerInfo extends Component {
-    constructor(props){
-        super(props);
-    }
-
     render() {
         return(
             <dl key={this.props.beer.id}>

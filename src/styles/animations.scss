@@ -14,3 +14,10 @@
   from {max-height: 0rem;}
   to {max-height: 20rem;}
 }
+
+@keyframes beerShake{
+  0% {transform: rotate(0);}
+  25%{transform: rotate(-10deg);}
+  75%{transform: rotate(10deg);}
+  100%{transform: rotate(0);}
+}

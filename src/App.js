@@ -14,7 +14,7 @@ export default class App extends Component {
           <Branding />
         </header>
         <main>
-          <BeerList order="random" randomCount="4" hasLabels="Y"/>
+          <BeerList hasLabels="Y"/>
         </main>
       </div>
     );

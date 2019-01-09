@@ -28,7 +28,8 @@ header{
 
 main{
   flex: 15;
-  margin: 2rem 0;
+  flex-direction: column;
+  margin: 2rem 5rem;
 }
 
 //Some responsive stuff
