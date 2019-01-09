@@ -20,6 +20,6 @@ export default class Loading extends Component {
 
         let currentQuote = quotes[Math.floor(Math.random()*quotes.length)]
 
-        return <div class="loading"><h3>{currentQuote.quote}</h3><p>{currentQuote.author}</p></div>;
+        return <div className="loading"><h3>{currentQuote.quote}</h3><p>{currentQuote.author}</p></div>;
     }
 }

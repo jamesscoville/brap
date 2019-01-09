@@ -6,9 +6,10 @@ export default class BeerButton extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
-    handleClick(e) {
+    handleClick = (e) => {
         e.preventDefault();
         console.log(this.props.BeerId);
+        this.props.func(this.props.BeerId);
     }
 
     render(){

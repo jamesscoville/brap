@@ -14,6 +14,7 @@ export default class BeerList extends Component {
             isLoading: false,
             error: null,
             page: 1,
+            beer: null,
         };
     }
 
@@ -30,8 +31,17 @@ export default class BeerList extends Component {
         }
         //console.log(this.state.page);
     }
+    
+    
 
-    makeApiCall(nextPage){
+    selectBeer(BeerId) {
+        console.log(BeerId);
+        /*this.setState({
+            beer: BeerId
+        });*/
+    }
+
+    makeApiCall(nextPage, beer){
         //Ensure loading state is updated
         this.setState({ isLoading: true });
 
@@ -53,9 +63,13 @@ export default class BeerList extends Component {
         if(nextPage){
             apiQuery += "&p=" + nextPage;
         }
+        //single beer
+        if(beer){
+            apiQuery += "&id=" + beer;
+        }
 
         //Take a look at the full query string
-        //console.log(apiQuery);
+        console.log(apiQuery);
 
         //Make Api Call and setState with results
         axios.get(apiQuery)
@@ -72,6 +86,9 @@ export default class BeerList extends Component {
     componentWillUpdate(nextProps, nextState) {
         if(nextState.page !== this.state.page){
             this.makeApiCall(nextState.page);
+        }
+        if(this.state.beer){
+            this.makeApiCall(this.state.page, this.state.beer);
         }
     }
 
@@ -112,10 +129,12 @@ export default class BeerList extends Component {
                                 <div className="card" key={beer.id}>
                                     <div className="content"> 
                                         {beer.labels ? <Image url={beer.labels.medium} alt={beer.name}/> : null}
-                                        {beer.name ? <h2>{beer.name}</h2> : null}
                                     </div>
                                     <div className="actions">
-                                        <BeerButton BeerId={beer.id}/>
+                                        <button className="beer-button" onClick={() => this.selectBeer(beer.id)}>
+                                            {beer.name ? <h2>{beer.name}</h2> : null}
+                                            <span><i className="fas fa-lg fa-beer"></i></span>
+                                        </button>
                                     </div>
                                 </div>
                             )
@@ -123,7 +142,7 @@ export default class BeerList extends Component {
                     }
                 </div>
                 <div className="pagination-actions">
-                    <button className="pagination-button" onClick={() => this.paginate("prev")}>
+                    <button className="pagination-button" onClick={() => this.paginate("prev")} disabled={this.state.page === 1 ? true : null}>
                         <i className="fas fa-lg fa-arrow-circle-left"></i>
                     </button>
                     <button className="pagination-button" onClick={() => this.paginate("next")}>
