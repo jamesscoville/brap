@@ -1,13 +1,17 @@
 .beer-list{
-    align-items: start;
     display: grid;
     flex: 1;
     grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
     grid-gap: 2rem;
-    grid-auto-rows: auto;
 
     .card{
         border-top: 4px solid $yellow;
+        display: flex;
+        flex-direction: column;
+
+        .content{
+            flex: 1;
+        }
 
         &:last-of-type{
             margin-bottom: 2rem;
@@ -38,21 +42,6 @@
         margin: 0;
         opacity: 0;
         width: 100%;
-    }
-
-    
-    //Some responsive stuff
-    @media only screen and (max-width: 1248px){
-        .card{
-            flex: none;
-            margin: 0 0.5rem 1rem 0.5rem;
-            width: auto;
-
-            img{
-                display: block;
-                margin: 0 auto;
-            }
-        }
     }
 }
 

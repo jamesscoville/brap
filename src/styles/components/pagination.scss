@@ -1,7 +1,13 @@
 .pagination-actions{
+    margin-bottom: 2rem;
+    
     button{
         display: inline-block;
         border-radius: 50%;
         width: auto;
+
+        &:last-of-type{
+            float:right;
+        }
     }
 }

@@ -14,27 +14,26 @@ export default class BeerList extends Component {
             error: null,
             page: 1,
         };
-
-//        this.paginateNext = this.paginate.bind(this);
     }
 
+    //Simple Pagination
     paginate(direction) {
         if(direction === "prev" && this.state.page > 1){ 
             this.setState({
                 page: this.state.page - 1
             });
-        }else{
+        }else if(direction !== "prev"){
             this.setState({
                 page: this.state.page + 1
             });
         }
-        console.log(this.state.page);
+        //console.log(this.state.page);
     }
 
     makeApiCall(nextPage){
         //Ensure loading state is updated
         this.setState({ isLoading: true });
-        
+
         //Based on props construct an API query string
         let apiQuery = "beers?key=78fa30f6b70c79b960afd1d38d45117c";
         //If passed an order
@@ -50,12 +49,12 @@ export default class BeerList extends Component {
             apiQuery += "&hasLabels=" + this.props.hasLabels;
         }
         //pagination
-        if(this.state.page){
+        if(nextPage){
             apiQuery += "&p=" + nextPage;
         }
 
         //Take a look at the full query string
-        console.log(apiQuery);
+        //console.log(apiQuery);
 
         //Make Api Call and setState with results
         axios.get(apiQuery)
@@ -90,16 +89,6 @@ export default class BeerList extends Component {
 
         return (
             <React.Fragment>
-                
-                
-                <div className="pagination-actions">
-                <button className="pagination-button" onClick={() => this.paginate("prev")}>
-                        <i className="fas fa-lg fa-arrow-circle-left"></i>
-                    </button>
-                    <button className="pagination-button" onClick={() => this.paginate("next")}>
-                        <i className="fas fa-lg fa-arrow-circle-right"></i>
-                    </button>
-                </div>
                 <div className={this.props.type === "card" ? "beer-list cards" : "beer-list"}>
                     {
                         (this.props.type === "card") ?
@@ -131,6 +120,14 @@ export default class BeerList extends Component {
                             )
                         }))
                     }
+                </div>
+                <div className="pagination-actions">
+                    <button className="pagination-button" onClick={() => this.paginate("prev")}>
+                        <i className="fas fa-lg fa-arrow-circle-left"></i>
+                    </button>
+                    <button className="pagination-button" onClick={() => this.paginate("next")}>
+                        <i className="fas fa-lg fa-arrow-circle-right"></i>
+                    </button>
                 </div>
             </React.Fragment>
         )
