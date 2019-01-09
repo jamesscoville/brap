@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Image from "../elements/Image";
 import BeerButton from "../elements/BeerButton";
-import axios from 'axios';
 import Loading from "./Loading";
+import axios from 'axios';
 
 export default class BeerList extends Component {
     constructor(props) {
@@ -41,7 +41,7 @@ export default class BeerList extends Component {
 
     deselectBeer() {
         this.setState({
-            beer: undefined
+            beer: null
         });
     }
 
