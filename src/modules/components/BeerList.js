@@ -75,6 +75,13 @@ export default class BeerList extends Component {
 
         return (
             <React.Fragment>
+                
+                
+                <div className="pagination-actions">
+                    <button className="pagination-button" onClick={() => this.paginateNext()}>
+                        <i className="fas fa-arrow-circle-right"></i>
+                    </button>
+                </div>
                 <div className={this.props.type === "card" ? "beer-list cards" : "beer-list"}>
                     {
                         (this.props.type === "card") ?
@@ -106,12 +113,6 @@ export default class BeerList extends Component {
                             )
                         }))
                     }
-                </div>
-                
-                <div className="pagination-actions">
-                    <button className="pagination-button" onClick={() => this.paginateNext()}>
-                        <i className="fas fa-arrow-circle-right"></i>
-                    </button>
                 </div>
             </React.Fragment>
         )
