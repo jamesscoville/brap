@@ -23,13 +23,9 @@ export default class BeerList extends Component {
             page: this.state.page + 1
         });
         console.log(this.state.page);
-        //this.componentDidMount();
     }
 
-    componentDidMount() {    
-        //Ensure loading state is updated
-        this.setState({ isLoading: true });
-
+    makeApiCall(){
         //Based on props construct an API query string
         let apiQuery = "beers?key=78fa30f6b70c79b960afd1d38d45117c";
         //If passed an order
@@ -58,6 +54,19 @@ export default class BeerList extends Component {
             const beers = res.data; 
             this.setState({ beers: beers.data, isLoading: false });})
         .catch(error => this.setState({ error, isLoading: false }));
+    }
+
+    componentDidMount() {    
+        //Ensure loading state is updated
+        this.setState({ isLoading: true });
+
+        this.makeApiCall();
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        if(nextState.page !== this.state.page){
+            this.makeApiCall();
+        }
     }
 
     render() {
