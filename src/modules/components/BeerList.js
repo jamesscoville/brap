@@ -31,17 +31,15 @@ export default class BeerList extends Component {
         }
         //console.log(this.state.page);
     }
-    
-    
 
     selectBeer(BeerId) {
-        console.log(BeerId);
-        /*this.setState({
+        //console.log(BeerId);
+        this.setState({
             beer: BeerId
-        });*/
+        });
     }
 
-    makeApiCall(nextPage, beer){
+    listApiCall(nextPage){
         //Ensure loading state is updated
         this.setState({ isLoading: true });
 
@@ -63,10 +61,6 @@ export default class BeerList extends Component {
         if(nextPage){
             apiQuery += "&p=" + nextPage;
         }
-        //single beer
-        if(beer){
-            apiQuery += "&id=" + beer;
-        }
 
         //Take a look at the full query string
         console.log(apiQuery);
@@ -79,17 +73,43 @@ export default class BeerList extends Component {
         .catch(error => this.setState({ error, isLoading: false }));
     }
 
-    componentDidMount() {    
-        this.makeApiCall();
+    singleApiCall(beer){
+        //Ensure loading state is updated
+        this.setState({ isLoading: true });
+
+        //Based on props construct an API query string
+        let apiQuery = "beer/";
+        if(beer){
+            apiQuery += beer + "?key=78fa30f6b70c79b960afd1d38d45117c";
+        }
+
+        //Take a look at the full query string
+        console.log(apiQuery);
+
+        //Make Api Call and setState with results
+        /*axios.get(apiQuery)
+        .then(res => {
+            const beers = res.data; 
+            this.setState({ beers: beers.data, isLoading: false });})
+        .catch(error => this.setState({ error, isLoading: false }));*/
+    }
+
+    componentDidMount() {  
+        if(!this.state.beer) {
+            this.listApiCall();
+        }
     }
 
     componentWillUpdate(nextProps, nextState) {
         if(nextState.page !== this.state.page){
-            this.makeApiCall(nextState.page);
+            this.listApiCall(nextState.page);
+        }else if(this.state.beer){
+            console.log("easy:" + this.state.beer);
+            this.singleApiCall(this.state.beer);
         }
-        if(this.state.beer){
-            this.makeApiCall(this.state.page, this.state.beer);
-        }
+        /*if(this.state.beer){
+            this.singleApiCall(this.state.beer);
+        }*/
     }
 
     render() {
