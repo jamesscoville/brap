@@ -12,7 +12,7 @@ export default class Loading extends Component {
             {id: 8, author: "Russell Crowe", quote: "I have respect for beer."},
             {id: 9, author: "Anne Sexton", quote: "God has a brown voice, as soft and full as beer."},
             {id: 10, author: "Ray Bradbury", quote: "Beer’s intellectual. What a shame so many idiots drink it."},
-            {id: 11, author: "Charles Bukowski", quote: "stay with the beer. beer is continuous blood. a continuous lover."},
+            {id: 11, author: "Charles Bukowski", quote: "Stay with the beer. beer is continuous blood. a continuous lover."},
             {id: 12, author: "Stephen King", quote: "A man who lies about beer makes enemies."},
             {id: 13, author: "William Shakespeare", quote: "For a quart of Ale is a dish for a king."},
             {id: 14, author: "Kaiser Wilhelm", quote: "Give me a woman who loves beer and I will conquer the world."},

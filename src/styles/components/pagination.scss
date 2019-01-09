@@ -1,5 +1,8 @@
 .pagination-actions{
     margin: 1rem 0;
+    position: fixed;
+    top: 0;
+    right: 1rem;
     
     button{
         background: $white;
@@ -13,15 +16,16 @@
         }
 
         &:first-of-type{
+            margin-right: 1rem;
             &:hover{
-                transform: translateX(-5px);
+                transform: translateX(-3px);
             }
         }
 
         &:last-of-type{
             float:right;
             &:hover{
-                transform: translateX(5px);
+                transform: translateX(3px);
             }
         }
     }

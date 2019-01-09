@@ -10,6 +10,13 @@
       transform: translateY(0);}
 }
 
+@keyframes fadeInAndUpLarge{
+  from {opacity:0;
+        transform: translateY(30px);}
+  to {opacity: 1;
+      transform: translateY(0);}
+}
+
 @keyframes maxHeightIncrease{
   from {max-height: 0rem;}
   to {max-height: 20rem;}
