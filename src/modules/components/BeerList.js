@@ -32,6 +32,9 @@ export default class BeerList extends Component {
     }
 
     makeApiCall(nextPage){
+        //Ensure loading state is updated
+        this.setState({ isLoading: true });
+        
         //Based on props construct an API query string
         let apiQuery = "beers?key=78fa30f6b70c79b960afd1d38d45117c";
         //If passed an order
@@ -63,9 +66,6 @@ export default class BeerList extends Component {
     }
 
     componentDidMount() {    
-        //Ensure loading state is updated
-        this.setState({ isLoading: true });
-
         this.makeApiCall();
     }
 
