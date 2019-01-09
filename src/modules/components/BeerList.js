@@ -3,24 +3,9 @@ import Image from "../elements/Image";
 import BeerButton from "../elements/BeerButton";
 import axios from 'axios';
 
-class PaginationButton extends Component {
-    constructor(props){
-        super(props);
-        this.handleClick = this.handleClick.bind(this);
-    }
-    
-    handleClick(e) {
-        e.preventDefault();
-        this.props.paginate("next");
-    }
-
-    render() {
-        return <button className="pagination-button" onClick={this.handleClick}><i className="fas fa-arrow-circle-right"></i></button>
-    }
-}
 export default class BeerList extends Component {
     constructor(props) {
-        super(props);
+        super();
 
         //Setup initial state
         this.state = {
@@ -30,14 +15,15 @@ export default class BeerList extends Component {
             page: 1,
         };
 
-        this.paginate = this.paginate.bind(this);
+//        this.paginateNext = this.paginate.bind(this);
     }
 
-    paginate(){
-        this.setState((state) => {
-            return { page: state.page + 1}
+    paginateNext() {
+        this.setState({
+            page: this.state.page + 1
         });
-        this.componentDidMount();
+        console.log(this.state.page);
+        //this.componentDidMount();
     }
 
     componentDidMount() {    
@@ -122,9 +108,11 @@ export default class BeerList extends Component {
                     }
                 </div>
                 
-                <button className="pagination-button" onClick={this.paginate}>
-                    <i className="fas fa-arrow-circle-right"></i>
-                </button>
+                <div className="pagination-actions">
+                    <button className="pagination-button" onClick={() => this.paginateNext()}>
+                        <i className="fas fa-arrow-circle-right"></i>
+                    </button>
+                </div>
             </React.Fragment>
         )
     }
