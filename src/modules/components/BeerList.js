@@ -39,6 +39,12 @@ export default class BeerList extends Component {
         });
     }
 
+    deselectBeer() {
+        this.setState({
+            beer: undefined
+        });
+    }
+
     listApiCall(nextPage){
         //Ensure loading state is updated
         this.setState({ isLoading: true });
@@ -94,17 +100,19 @@ export default class BeerList extends Component {
         .catch(error => this.setState({ error, isLoading: false }));
     }
 
+    //initial mount
     componentDidMount() {  
         if(!this.state.beer) {
             this.listApiCall();
         }
     }
 
+    //Apparently deprecated but easiest way to go right now
     componentWillUpdate(nextProps, nextState) {
         if(nextState.page !== this.state.page){
             this.listApiCall(nextState.page);
         }else if(nextState.beer && nextState.beer !== this.state.beer){
-            console.log("componentWillUpdate:" + nextState.beer);
+            //console.log("componentWillUpdate:" + nextState.beer);
             this.singleApiCall(nextState.beer);
         }
     }
@@ -123,7 +131,12 @@ export default class BeerList extends Component {
         }
 
         if(beer){
-            return (<p>aww shiet</p>)
+            return (
+                <React.Fragment>
+                    <h3>{beers.name}</h3>
+                    <button className="close-beer" onClick={this.deselectBeer}><i className="fas fa-lg fa-times"></i></button>
+                </React.Fragment>
+            )
         }else if(beers){
             return (
                 <React.Fragment>
