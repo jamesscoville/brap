@@ -87,11 +87,11 @@ export default class BeerList extends Component {
         console.log(apiQuery);
 
         //Make Api Call and setState with results
-        /*axios.get(apiQuery)
+        axios.get(apiQuery)
         .then(res => {
             const beers = res.data; 
             this.setState({ beers: beers.data, isLoading: false });})
-        .catch(error => this.setState({ error, isLoading: false }));*/
+        .catch(error => this.setState({ error, isLoading: false }));
     }
 
     componentDidMount() {  
@@ -103,18 +103,15 @@ export default class BeerList extends Component {
     componentWillUpdate(nextProps, nextState) {
         if(nextState.page !== this.state.page){
             this.listApiCall(nextState.page);
-        }else if(this.state.beer){
-            console.log("easy:" + this.state.beer);
-            this.singleApiCall(this.state.beer);
+        }else if(nextState.beer && nextState.beer !== this.state.beer){
+            console.log("componentWillUpdate:" + nextState.beer);
+            this.singleApiCall(nextState.beer);
         }
-        /*if(this.state.beer){
-            this.singleApiCall(this.state.beer);
-        }*/
     }
 
     render() {
         //Pass in state
-        const { beers, isLoading, error } = this.state;
+        const { beers, isLoading, error, beer } = this.state;
         
         //Error State
         if (error) {
@@ -125,52 +122,56 @@ export default class BeerList extends Component {
             return <Loading />;
         }
 
-        return (
-            <React.Fragment>
-                <div className={this.props.type === "card" ? "beer-list cards" : "beer-list"}>
-                    {
-                        (this.props.type === "card") ?
-                        (beers.map((beer) =>{ 
-                            return(
-                                <div className="card" key={beer.id}>
-                                    <div className="content">
-                                        {beer.labels ? <Image url={beer.labels.medium} alt={beer.name}/> : null}
-                                        {beer.name ? <h2>{beer.name}</h2> : null}
-                                        {beer.id ? <BeerInfo beer={beer} /> : null}
-                                    </div>
-                                    <div className="actions">
-                                        <BeerButton BeerId={beer.id}/>
-                                    </div>
-                                </div>
-                            )}
-                        )) :
-                        (beers.map((beer) =>{
-                            return(
-                                <div className="card" key={beer.id}>
-                                    <div className="content"> 
-                                        {beer.labels ? <Image url={beer.labels.medium} alt={beer.name}/> : null}
-                                    </div>
-                                    <div className="actions">
-                                        <button className="beer-button" onClick={() => this.selectBeer(beer.id)}>
+        if(beer){
+            return (<p>aww shiet</p>)
+        }else if(beers){
+            return (
+                <React.Fragment>
+                    <div className={this.props.type === "card" ? "beer-list cards" : "beer-list"}>
+                        {
+                            (this.props.type === "card") ?
+                            (beers.map((beer) =>{ 
+                                return(
+                                    <div className="card" key={beer.id}>
+                                        <div className="content">
+                                            {beer.labels ? <Image url={beer.labels.medium} alt={beer.name}/> : null}
                                             {beer.name ? <h2>{beer.name}</h2> : null}
-                                            <span><i className="fas fa-lg fa-beer"></i></span>
-                                        </button>
+                                            {beer.id ? <BeerInfo beer={beer} /> : null}
+                                        </div>
+                                        <div className="actions">
+                                            <BeerButton BeerId={beer.id}/>
+                                        </div>
                                     </div>
-                                </div>
-                            )
-                        }))
-                    }
-                </div>
-                <div className="pagination-actions">
-                    <button className="pagination-button" onClick={() => this.paginate("prev")} disabled={this.state.page === 1 ? true : null}>
-                        <i className="fas fa-lg fa-arrow-circle-left"></i>
-                    </button>
-                    <button className="pagination-button" onClick={() => this.paginate("next")}>
-                        <i className="fas fa-lg fa-arrow-circle-right"></i>
-                    </button>
-                </div>
-            </React.Fragment>
-        )
+                                )}
+                            )) :
+                            (beers.map((beer) =>{
+                                return(
+                                    <div className="card" key={beer.id}>
+                                        <div className="content"> 
+                                            {beer.labels ? <Image url={beer.labels.medium} alt={beer.name}/> : null}
+                                        </div>
+                                        <div className="actions">
+                                            <button className="beer-button" onClick={() => this.selectBeer(beer.id)}>
+                                                {beer.name ? <h2>{beer.name}</h2> : null}
+                                                <span><i className="fas fa-lg fa-beer"></i></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                )
+                            }))
+                        }
+                    </div>
+                    <div className="pagination-actions">
+                        <button className="pagination-button" onClick={() => this.paginate("prev")} disabled={this.state.page === 1 ? true : null}>
+                            <i className="fas fa-lg fa-arrow-circle-left"></i>
+                        </button>
+                        <button className="pagination-button" onClick={() => this.paginate("next")}>
+                            <i className="fas fa-lg fa-arrow-circle-right"></i>
+                        </button>
+                    </div>
+                </React.Fragment>
+            )
+        }
     }
 }
 
