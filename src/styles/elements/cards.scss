@@ -2,7 +2,7 @@
     animation: fadeInAndUp 250ms ease-in-out forwards;
     background: $white;
     border-radius: 0.5rem;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.3);
     opacity: 0;
     @include stagger-delay(50, 0s, 0.07s);
 

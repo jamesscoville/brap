@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Image from "../elements/Image";
 import BeerButton from "../elements/BeerButton";
 import axios from 'axios';
+import Loading from "./Loading";
 
 export default class BeerList extends Component {
     constructor(props) {
@@ -84,7 +85,7 @@ export default class BeerList extends Component {
         }
         //Loading State
         if (isLoading) {
-            return <p>Loading ...</p>;
+            return <Loading />;
         }
 
         return (

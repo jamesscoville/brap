@@ -1,13 +1,28 @@
 .pagination-actions{
-    margin-bottom: 2rem;
+    margin: 1rem 0;
     
     button{
-        display: inline-block;
+        background: $white;
         border-radius: 50%;
+        display: inline-block;
+        transition: transform 250ms ease-in-out;
         width: auto;
+
+        i{
+            color: $yellow;
+        }
+
+        &:first-of-type{
+            &:hover{
+                transform: translateX(-5px);
+            }
+        }
 
         &:last-of-type{
             float:right;
+            &:hover{
+                transform: translateX(5px);
+            }
         }
     }
 }
