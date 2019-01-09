@@ -18,14 +18,20 @@ export default class BeerList extends Component {
 //        this.paginateNext = this.paginate.bind(this);
     }
 
-    paginateNext() {
-        this.setState({
-            page: this.state.page + 1
-        });
+    paginate(direction) {
+        if(direction === "prev" && this.state.page > 1){ 
+            this.setState({
+                page: this.state.page - 1
+            });
+        }else{
+            this.setState({
+                page: this.state.page + 1
+            });
+        }
         console.log(this.state.page);
     }
 
-    makeApiCall(){
+    makeApiCall(nextPage){
         //Based on props construct an API query string
         let apiQuery = "beers?key=78fa30f6b70c79b960afd1d38d45117c";
         //If passed an order
@@ -42,7 +48,7 @@ export default class BeerList extends Component {
         }
         //pagination
         if(this.state.page){
-            apiQuery += "&p=" + this.state.page;
+            apiQuery += "&p=" + nextPage;
         }
 
         //Take a look at the full query string
@@ -65,7 +71,7 @@ export default class BeerList extends Component {
 
     componentWillUpdate(nextProps, nextState) {
         if(nextState.page !== this.state.page){
-            this.makeApiCall();
+            this.makeApiCall(nextState.page);
         }
     }
 
@@ -87,8 +93,11 @@ export default class BeerList extends Component {
                 
                 
                 <div className="pagination-actions">
-                    <button className="pagination-button" onClick={() => this.paginateNext()}>
-                        <i className="fas fa-arrow-circle-right"></i>
+                <button className="pagination-button" onClick={() => this.paginate("prev")}>
+                        <i className="fas fa-lg fa-arrow-circle-left"></i>
+                    </button>
+                    <button className="pagination-button" onClick={() => this.paginate("next")}>
+                        <i className="fas fa-lg fa-arrow-circle-right"></i>
                     </button>
                 </div>
                 <div className={this.props.type === "card" ? "beer-list cards" : "beer-list"}>
