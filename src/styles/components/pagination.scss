@@ -1,8 +1,18 @@
 .pagination-actions{
     margin: 1rem 0;
     position: absolute;
-    top: 0.75rem;
-    right: 5rem;
+    top: 0.375rem;
+    right: 0.5rem;
+    @media only screen and (max-width: ($smallScreen - 1px)){
+        span{   
+            @include visuallyhidden;
+        }
+    }
+
+    @media only screen and (min-width: $smallScreen){
+        top: 0.75rem;
+        right: 5rem;
+    }
 
     span{
         font-size: 1rem;
@@ -12,7 +22,7 @@
     
     button{
         &:first-of-type{
-            margin-right: 1rem;
+            margin-right: 0.5rem;
             &:hover:not(:disabled){
                 transform: translateX(-3px);
             }

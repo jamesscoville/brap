@@ -37,14 +37,6 @@ export default class BeerList extends Component {
 
         //Based on props construct an API query string
         let apiQuery = "beers?key=78fa30f6b70c79b960afd1d38d45117c";
-        //If passed an order
-        if(this.props.order){
-            apiQuery += "&order=" + this.props.order;
-            //If random and passed a random count
-            if(this.props.order === "random" && this.props.randomCount){
-                apiQuery += "&randomCount=" + this.props.randomCount;
-            }
-        }
         //If passed hasLabels
         if(this.props.hasLabels){
             apiQuery += "&hasLabels=" + this.props.hasLabels;
@@ -55,7 +47,7 @@ export default class BeerList extends Component {
         }
 
         //Take a look at the full query string
-        console.log(apiQuery);
+        //console.log(apiQuery);
 
         //Make Api Call and setState with results
         axios.get(apiQuery)
@@ -153,7 +145,9 @@ class BeerCard extends Component {
                         </div>
                     </div>
                     <div class="back">
-                        <i className="flip-toggle fas fa-lg fa-times" onClick={this.flip}></i>
+                        <div className="flip-toggle">
+                            <i className="fas fa-times" onClick={this.flip}></i>
+                        </div>
                         {beer.name ? <h4>{beer.name}</h4> : null}
                         <BeerInfo beer={beer} />
                     </div>

@@ -1,5 +1,4 @@
 .beer-list{
-    align-items: start;
     display: grid;
     flex: 1;
     grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
@@ -13,29 +12,38 @@
         perspective: 1000px;
 
         .inner{
+            display: flex;
+            align-items: flex-end;
             background: $white;
             border-radius: 0.5rem;
             box-shadow: 0 2px 4px 0 rgba(0,0,0,0.3);
             position: relative;
             transition: transform 0.6s;
             transform-style: preserve-3d;
-            width: 100%;
             height: 100%;
+            width: 100%;
         }
 
         &.flipped{
             .inner{
-                background: rgba(29, 29, 29, 0.767);
+                background: $black;
                 transform: rotateY(180deg);
                 transition: transform 0.6s, background 250ms 300ms ease-in-out;
             }
             .back{
                 animation: fadeIn 250ms 250ms ease-in-out forwards;
 
-                h4,
+                h4{
+                    color: $yellow;
+                    margin: 1rem 0;
+                    padding-right: 1.25rem;
+                }
                 dl,
                 i{
                     color: $white;
+                }
+                dl{
+                    padding-right: 1rem;
                 }
             }
         }
@@ -43,19 +51,19 @@
         .front,
         .back{
             backface-visibility: hidden;
+            box-sizing: border-box;
+            width: 100%;
         }
 
         .front{
-            height: 100%;
             position: relative;
             z-index: 2;
         }
 
         .back{
-            padding: 0 1rem 1rem 1rem;
-            height: 95%;
             opacity: 0;
             overflow-y: scroll;
+            padding: 0 1rem 1rem 1rem;
             position:absolute;
             top: 0;
             left: 0;
@@ -64,16 +72,20 @@
             transform: rotateY(180deg);
             z-index: 1;
 
-            h4{
-                margin: 1rem 0;
-                padding-right: 1.25rem;
-            }
-
             .flip-toggle{
-                cursor: pointer;
                 float: right;
-                position:relative; 
-                top: 1.5rem;
+                position: sticky; 
+                top: 0;
+                right: 0;
+
+                i{
+                    @extend button.action;
+                    background: transparent;
+                    cursor: pointer;
+                    padding: 0.5rem;
+                    position:relative;
+                    right: -1rem;
+                }
             }
         }
 

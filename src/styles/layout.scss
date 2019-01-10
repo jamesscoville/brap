@@ -24,32 +24,40 @@ header{
 header{
   justify-content: space-between;
   min-height: 5rem;
+
+  h1{
+    margin: 0 1rem;
+
+    @media only screen and (min-width: $smallScreen){
+      margin: 0.5rem 5rem;  
+    }
+  }
 }
 
 main{
   flex: 15;
   flex-direction: column;
-  margin: 2rem 5rem;
-}
+  margin: 10vw;
 
-//Some responsive stuff
-@media only screen and (max-width:640px){
-  main{
-    margin: 1rem 0;
+  @media only screen and (min-width: $smallScreen){
+    margin: 2rem 5rem;
   }
 }
 
+//Some responsive stuff
+
+
 //Scrollbars
 ::-webkit-scrollbar{
-  width: 0.5rem;
+  width: 0.4rem;
 }
 
 ::-webkit-scrollbar-track{
-  background: #efefef;
+  background: rgba(105, 105, 105,0.75);
   border-radius: 1.25rem;
 }
 
 ::-webkit-scrollbar-thumb{
-  background: $black;
+  background: #FFF;
   border-radius: 1.25rem;
 }
