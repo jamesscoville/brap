@@ -15,7 +15,10 @@ export default class BeerList extends Component {
             error: null,
             page: 1,
             beer: null,
+            reload: false,
         };
+
+        this.deselectBeer = this.deselectBeer.bind(this);
     }
 
     //Simple Pagination
@@ -40,9 +43,10 @@ export default class BeerList extends Component {
     }
 
     deselectBeer() {
-        this.setState({
-            beer: null
-        });
+        this.setState(state => ({
+            beer: null,
+            reload: true
+        }));
     }
 
     listApiCall(nextPage){
@@ -109,11 +113,18 @@ export default class BeerList extends Component {
 
     //Apparently deprecated but easiest way to go right now
     componentWillUpdate(nextProps, nextState) {
-        if(nextState.page !== this.state.page){
-            this.listApiCall(nextState.page);
-        }else if(nextState.beer && nextState.beer !== this.state.beer){
-            //console.log("componentWillUpdate:" + nextState.beer);
+        //if a single beer selected
+        if(nextState.beer && nextState.beer !== this.state.beer){
             this.singleApiCall(nextState.beer);
+        }else{
+            //if pagination is happening
+            if(nextState.page !== this.state.page){
+                this.listApiCall(nextState.page);
+            //if a single beer isn't selected and reload is set to true
+            }else if(nextState.beer === null && nextState.reload === true){
+                this.setState({reload: false});
+                this.listApiCall(this.state.page);
+            }
         }
     }
 
@@ -137,7 +148,7 @@ export default class BeerList extends Component {
                     <button className="close-beer" onClick={this.deselectBeer}><i className="fas fa-lg fa-times"></i></button>
                 </React.Fragment>
             )
-        }else if(beers){
+        }else if(beers.length > 1){
             return (
                 <React.Fragment>
                     <div className={this.props.type === "card" ? "beer-list cards" : "beer-list"}>
@@ -182,6 +193,13 @@ export default class BeerList extends Component {
                             <i className="fas fa-lg fa-arrow-circle-right"></i>
                         </button>
                     </div>
+                </React.Fragment>
+            )
+        }else {
+            return(
+                <React.Fragment>
+                    {console.log("beers length " + beers.length)}
+                    <p>holy fuck</p> 
                 </React.Fragment>
             )
         }
