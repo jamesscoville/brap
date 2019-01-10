@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from "prop-types";
 import Image from "../elements/Image";
 import Loading from "./Loading";
 import axios from 'axios';
@@ -6,7 +7,6 @@ import axios from 'axios';
 export default class BeerList extends Component {
     constructor(props) {
         super();
-
         //Setup initial state
         this.state = {
             beers: [],
@@ -16,6 +16,10 @@ export default class BeerList extends Component {
             page: 1,
         };
     }
+
+    static propTypes = {
+        hasLabels: PropTypes.string
+    };
 
     //Simple Pagination
     paginate(direction) {
@@ -88,9 +92,9 @@ export default class BeerList extends Component {
                 <React.Fragment>
                     <div className="beer-list">
                         {
-                            (beers.map((beer) =>{
+                            (beers.map((beer, i) =>{
                                 return(
-                                    <BeerCard beer={beer} />
+                                    <BeerCard beer={beer} key={i} />
                                 )
                             }))
                         }
@@ -131,7 +135,7 @@ class BeerCard extends Component {
     render() {
         let beer = this.props.beer;
         return( 
-            <div className={this.state.flipped ? "card flipped" : "card"} key={beer.id}>
+            <div className={this.state.flipped ? "card flipped" : "card"}>
                 <div className="inner">
                     <div className="front">
                         <div className="content"> 
@@ -144,7 +148,7 @@ class BeerCard extends Component {
                             </button>
                         </div>
                     </div>
-                    <div class="back">
+                    <div className="back">
                         <div className="flip-toggle">
                             <i className="fas fa-times" onClick={this.flip}></i>
                         </div>
@@ -156,11 +160,12 @@ class BeerCard extends Component {
         )
     }
 }
+BeerCard.displayName = "BeerCard";
 
 class BeerInfo extends Component {
     render() {
         return(
-            <dl key={this.props.beer.id}>
+            <dl>
                 {
                     (this.props.beer.abv) ?     
                     (<React.Fragment><dt>ABV (Alcohol By Volume)</dt><dd>{this.props.beer.abv}</dd></React.Fragment>) :

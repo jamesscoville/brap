@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<h3>
+  Oops, something went wrong :(
+</h3>
+`;
+
+exports[`shallow render correctly 1`] = `<Loading />`;

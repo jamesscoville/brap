@@ -23,3 +23,4 @@ export default class Loading extends Component {
         return <div className="loading"><h3>{currentQuote.quote}</h3><p>{currentQuote.author}</p></div>;
     }
 }
+Loading.displayName = "Loading";
