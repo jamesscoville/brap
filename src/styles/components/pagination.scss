@@ -3,18 +3,14 @@
     position: absolute;
     top: 0.75rem;
     right: 5rem;
+
+    span{
+        font-size: 1rem;
+        font-weight: bold;
+        padding-right: 1rem;
+    }
     
     button{
-        background: $black;
-        border-radius: 50%;
-        display: inline-block;
-        transition: transform 250ms ease-in-out;
-        width: auto;
-
-        i{
-            color: $white;
-        }
-
         &:first-of-type{
             margin-right: 1rem;
             &:hover:not(:disabled){

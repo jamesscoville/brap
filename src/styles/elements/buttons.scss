@@ -26,6 +26,18 @@ button{
             transform: none;
         }
     }
+
+    &.action{
+        background: $black;
+        border-radius: 50%;
+        display: inline-block;
+        transition: transform 250ms ease-in-out;
+        width: auto;
+        
+        i{
+            color: $white;
+        }
+    }
 }
 
 .beer-button{

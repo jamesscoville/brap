@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Image from "../elements/Image";
-import BeerButton from "../elements/BeerButton";
 import Loading from "./Loading";
 import axios from 'axios';
 
@@ -11,14 +10,11 @@ export default class BeerList extends Component {
         //Setup initial state
         this.state = {
             beers: [],
+            pages: null,
             isLoading: false,
             error: null,
             page: 1,
-            beer: null,
-            reload: false,
         };
-
-        this.deselectBeer = this.deselectBeer.bind(this);
     }
 
     //Simple Pagination
@@ -33,20 +29,6 @@ export default class BeerList extends Component {
             });
         }
         //console.log(this.state.page);
-    }
-
-    selectBeer(BeerId) {
-        //console.log(BeerId);
-        this.setState({
-            beer: BeerId
-        });
-    }
-
-    deselectBeer() {
-        this.setState(state => ({
-            beer: null,
-            reload: true
-        }));
     }
 
     listApiCall(nextPage){
@@ -79,58 +61,26 @@ export default class BeerList extends Component {
         axios.get(apiQuery)
         .then(res => {
             const beers = res.data; 
-            this.setState({ beers: beers.data, isLoading: false });})
-        .catch(error => this.setState({ error, isLoading: false }));
-    }
-
-    singleApiCall(beer){
-        //Ensure loading state is updated
-        this.setState({ isLoading: true });
-
-        //Based on props construct an API query string
-        let apiQuery = "beer/";
-        if(beer){
-            apiQuery += beer + "?key=78fa30f6b70c79b960afd1d38d45117c";
-        }
-
-        //Take a look at the full query string
-        console.log(apiQuery);
-
-        //Make Api Call and setState with results
-        axios.get(apiQuery)
-        .then(res => {
-            const beers = res.data; 
-            this.setState({ beers: beers.data, isLoading: false });})
+            this.setState({ beers: beers.data, pages: beers.numberOfPages, isLoading: false });})
         .catch(error => this.setState({ error, isLoading: false }));
     }
 
     //initial mount
     componentDidMount() {  
-        if(!this.state.beer) {
-            this.listApiCall();
-        }
+        this.listApiCall();
     }
 
     //Apparently deprecated but easiest way to go right now
     componentWillUpdate(nextProps, nextState) {
-        //if a single beer selected
-        if(nextState.beer && nextState.beer !== this.state.beer){
-            this.singleApiCall(nextState.beer);
-        }else{
-            //if pagination is happening
-            if(nextState.page !== this.state.page){
-                this.listApiCall(nextState.page);
-            //if a single beer isn't selected and reload is set to true
-            }else if(nextState.beer === null && nextState.reload === true){
-                this.setState({reload: false});
-                this.listApiCall(this.state.page);
-            }
+        //if pagination is happening
+        if(nextState.page !== this.state.page){
+            this.listApiCall(nextState.page);
         }
     }
 
     render() {
         //Pass in state
-        const { beers, isLoading, error, beer } = this.state;
+        const { beers, isLoading, error } = this.state;
         
         //Error State
         if (error) {
@@ -141,55 +91,24 @@ export default class BeerList extends Component {
             return <Loading />;
         }
 
-        if(beer){
+        if(beers.length > 1){
             return (
                 <React.Fragment>
-                    <h3>{beers.name}</h3>
-                    <button className="close-beer" onClick={this.deselectBeer}><i className="fas fa-lg fa-times"></i></button>
-                </React.Fragment>
-            )
-        }else if(beers.length > 1){
-            return (
-                <React.Fragment>
-                    <div className={this.props.type === "card" ? "beer-list cards" : "beer-list"}>
+                    <div className="beer-list">
                         {
-                            (this.props.type === "card") ?
-                            (beers.map((beer) =>{ 
-                                return(
-                                    <div className="card" key={beer.id}>
-                                        <div className="content">
-                                            {beer.labels ? <Image url={beer.labels.medium} alt={beer.name}/> : null}
-                                            {beer.name ? <h2>{beer.name}</h2> : null}
-                                            {beer.id ? <BeerInfo beer={beer} /> : null}
-                                        </div>
-                                        <div className="actions">
-                                            <BeerButton BeerId={beer.id}/>
-                                        </div>
-                                    </div>
-                                )}
-                            )) :
                             (beers.map((beer) =>{
                                 return(
-                                    <div className="card" key={beer.id}>
-                                        <div className="content"> 
-                                            {beer.labels ? <Image url={beer.labels.medium} alt={beer.name}/> : null}
-                                        </div>
-                                        <div className="actions">
-                                            <button className="beer-button" onClick={() => this.selectBeer(beer.id)}>
-                                                {beer.name ? <h2>{beer.name}</h2> : null}
-                                                <span><i className="fas fa-lg fa-beer"></i></span>
-                                            </button>
-                                        </div>
-                                    </div>
+                                    <BeerCard beer={beer} />
                                 )
                             }))
                         }
                     </div>
                     <div className="pagination-actions">
-                        <button className="pagination-button" onClick={() => this.paginate("prev")} disabled={this.state.page === 1 ? true : null}>
+                        <span>Page {this.state.page} of {this.state.pages}</span>
+                        <button className="pagination-button action" onClick={() => this.paginate("prev")} disabled={this.state.page === 1 ? true : null}>
                             <i className="fas fa-lg fa-arrow-circle-left"></i>
                         </button>
-                        <button className="pagination-button" onClick={() => this.paginate("next")}>
+                        <button className="pagination-button action" onClick={() => this.paginate("next")}>
                             <i className="fas fa-lg fa-arrow-circle-right"></i>
                         </button>
                     </div>
@@ -197,12 +116,50 @@ export default class BeerList extends Component {
             )
         }else {
             return(
-                <React.Fragment>
-                    {console.log("beers length " + beers.length)}
-                    <p>holy fuck</p> 
-                </React.Fragment>
+                <h3>Oops, something went wrong :(</h3>
             )
         }
+    }
+}
+
+class BeerCard extends Component {
+    constructor(props) {
+        super();
+        this.flip = this.flip.bind(this);
+        this.state = {
+            flipped: false,
+        }
+    }
+
+    flip() {
+        const currentState = this.state.flipped;
+        this.setState({ flipped: !currentState });
+    }
+
+    render() {
+        let beer = this.props.beer;
+        return( 
+            <div className={this.state.flipped ? "card flipped" : "card"} key={beer.id}>
+                <div className="inner">
+                    <div className="front">
+                        <div className="content"> 
+                            {beer.labels ? <Image url={beer.labels.medium} alt={beer.name}/> : null}
+                        </div>
+                        <div className="actions">
+                            <button className="beer-button" onClick={this.flip}>
+                                {beer.name ? <h2>{beer.name}</h2> : null}
+                                <span><i className="fas fa-lg fa-beer"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="back">
+                        <i className="flip-toggle fas fa-lg fa-times" onClick={this.flip}></i>
+                        {beer.name ? <h4>{beer.name}</h4> : null}
+                        <BeerInfo beer={beer} />
+                    </div>
+                </div>
+            </div>
+        )
     }
 }
 

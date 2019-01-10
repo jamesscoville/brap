@@ -38,3 +38,18 @@ main{
     margin: 1rem 0;
   }
 }
+
+//Scrollbars
+::-webkit-scrollbar{
+  width: 0.5rem;
+}
+
+::-webkit-scrollbar-track{
+  background: #efefef;
+  border-radius: 1.25rem;
+}
+
+::-webkit-scrollbar-thumb{
+  background: $black;
+  border-radius: 1.25rem;
+}

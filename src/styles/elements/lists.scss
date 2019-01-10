@@ -11,7 +11,14 @@ dl{
         margin: 0;
     }
 
+    dt{
+        font-size: 1rem;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
     dd{
-        margin-bottom: 0.75rem;
+        font-size: 0.875rem;
+        margin-bottom: 1rem;
     }
 }
