@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
+
 import './App.scss';
 import Branding from './modules/components/Branding';
 import BeerList from './modules/components/BeerList';
 
 
 export default class App extends Component {
-  componentDidMount(){
-  }
   render() {
     return (
       <div className="app">

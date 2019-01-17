@@ -7,8 +7,8 @@
 
     .image-container{
         min-height: 15.25rem;
-        
-        @media only screen and (min-width: 1246px){
+
+        @media only screen and (min-width: $mediumScreen){
             clip-path: circle(6rem at center);
         }
     }

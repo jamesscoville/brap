@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import Image from "../elements/Image";
-import Loading from "./Loading";
 import axios from 'axios';
+
+import Loading from "./Loading";
+import Pagination from "./Pagination";
+import BeerCard from "./BeerCard";
 
 export default class BeerList extends Component {
     constructor(props) {
@@ -17,25 +19,26 @@ export default class BeerList extends Component {
         };
     }
 
+    //Need to learn more about use of proptypes
     static propTypes = {
         hasLabels: PropTypes.string
     };
 
     //Simple Pagination
-    paginate(direction) {
+    handlePaginate = (direction) => {
         if(direction === "prev" && this.state.page > 1){ 
-            this.setState({
+            this.setState(prevState => ({
                 page: this.state.page - 1
-            });
+            }));
         }else if(direction !== "prev"){
-            this.setState({
+            this.setState(prevState => ({
                 page: this.state.page + 1
-            });
+            }));
         }
         //console.log(this.state.page);
     }
 
-    listApiCall(nextPage){
+    handleListApiCall = (nextPage) => {
         //Ensure loading state is updated
         this.setState({ isLoading: true });
 
@@ -45,7 +48,7 @@ export default class BeerList extends Component {
         if(this.props.hasLabels){
             apiQuery += "&hasLabels=" + this.props.hasLabels;
         }
-        //pagination
+        //If being paginated
         if(nextPage){
             apiQuery += "&p=" + nextPage;
         }
@@ -57,36 +60,46 @@ export default class BeerList extends Component {
         axios.get(apiQuery)
         .then(res => {
             const beers = res.data; 
-            this.setState({ beers: beers.data, pages: beers.numberOfPages, isLoading: false });})
-        .catch(error => this.setState({ error, isLoading: false }));
+            this.setState(prevState => ({ 
+                beers: beers.data, 
+                pages: beers.numberOfPages, 
+                isLoading: false }));
+            })
+        .catch(error => this.setState({ 
+            error, 
+            isLoading: false }));
     }
 
-    //initial mount
+    //Initial mount
     componentDidMount() {  
-        this.listApiCall();
+        this.handleListApiCall();
     }
 
     //Apparently deprecated but easiest way to go right now
     componentWillUpdate(nextProps, nextState) {
-        //if pagination is happening
+        //If pagination is happening
         if(nextState.page !== this.state.page){
-            this.listApiCall(nextState.page);
+            this.handleListApiCall(nextState.page);
         }
     }
 
     render() {
-        //Pass in state
-        const { beers, isLoading, error } = this.state;
+        const { 
+            beers, 
+            isLoading, 
+            error 
+        } = this.state;
         
         //Error State
         if (error) {
-            return <p>{error.message}</p>;
+            return <h3>{error.message}</h3>;
         }
         //Loading State
         if (isLoading) {
             return <Loading />;
         }
 
+        //If Beer Data Returned
         if(beers.length > 1){
             return (
                 <React.Fragment>
@@ -99,15 +112,7 @@ export default class BeerList extends Component {
                             }))
                         }
                     </div>
-                    <div className="pagination-actions">
-                        <span>Page {this.state.page} of {this.state.pages}</span>
-                        <button className="pagination-button action" onClick={() => this.paginate("prev")} disabled={this.state.page === 1 ? true : null}>
-                            <i className="fas fa-lg fa-arrow-circle-left"></i>
-                        </button>
-                        <button className="pagination-button action" onClick={() => this.paginate("next")}>
-                            <i className="fas fa-lg fa-arrow-circle-right"></i>
-                        </button>
-                    </div>
+                    <Pagination page={this.state.page} pages={this.state.pages} paginate={this.handlePaginate} />
                 </React.Fragment>
             )
         }else {
@@ -115,88 +120,5 @@ export default class BeerList extends Component {
                 <h3>Oops, something went wrong :(</h3>
             )
         }
-    }
-}
-
-class BeerCard extends Component {
-    constructor(props) {
-        super();
-        this.flip = this.flip.bind(this);
-        this.state = {
-            flipped: false,
-        }
-    }
-
-    flip() {
-        const currentState = this.state.flipped;
-        this.setState({ flipped: !currentState });
-    }
-
-    render() {
-        let beer = this.props.beer;
-        return( 
-            <div className={this.state.flipped ? "card beer flipped" : "card beer"}>
-                <div className="inner">
-                    <div className="front">
-                        <div className="content"> 
-                            {beer.labels ? <Image url={beer.labels.medium} alt={beer.name}/> : null}
-                        </div>
-                        <div className="actions">
-                            <button className="beer-button" onClick={this.flip}>
-                                {beer.name ? <h2>{beer.name}</h2> : null}
-                                <span><i className="fas fa-lg fa-beer"></i></span>
-                            </button>
-                        </div>
-                    </div>
-                    <div className="back">
-                        <div className="flip-toggle">
-                            <i className="fas fa-times" onClick={this.flip}></i>
-                        </div>
-                        {beer.name ? <h4>{beer.name}</h4> : null}
-                        <BeerInfo beer={beer} />
-                    </div>
-                </div>
-            </div>
-        )
-    }
-}
-BeerCard.displayName = "BeerCard";
-
-class BeerInfo extends Component {
-    render() {
-        return(
-            <dl>
-                {
-                    (this.props.beer.abv) ?     
-                    (<React.Fragment><dt>ABV (Alcohol By Volume)</dt><dd>{this.props.beer.abv}</dd></React.Fragment>) :
-                    null
-                }
-                {
-                    (this.props.beer.ibu) ?     
-                    (<React.Fragment><dt>IBU (International Bittering Units)</dt><dd>{this.props.beer.ibu}</dd></React.Fragment>) :
-                    null
-                }
-                {
-                    (this.props.beer.glass) ?     
-                    (<React.Fragment><dt>Glass</dt><dd>{this.props.beer.glass.name}</dd></React.Fragment>) :
-                    null
-                }
-                {
-                    (this.props.beer.style) ?     
-                    (<React.Fragment><dt>Style</dt><dd>{this.props.beer.style.name}</dd></React.Fragment>) :
-                    null
-                }
-                {
-                    (this.props.beer.foodPairings) ?     
-                    (<React.Fragment><dt>Food Pairings</dt><dd>{this.props.beer.foodPairings}</dd></React.Fragment>) :
-                    null
-                }
-                {
-                    (this.props.beer.description) ?     
-                    (<React.Fragment><dt>Description</dt><dd>{this.props.beer.description}</dd></React.Fragment>) :
-                    null
-                }
-            </dl>
-        )
     }
 }
