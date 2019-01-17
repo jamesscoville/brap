@@ -13,4 +13,97 @@
     .actions button{
         border-radius: 0 0 0.5rem 0.5rem;
     }
+
+    &.beer{
+        background: transparent;
+        box-shadow: none;
+        display: flex;
+        flex-direction: column;
+        perspective: 1000px;
+
+        .inner{
+            align-items: flex-end;
+            background: rgba(255,255,255,0.4);
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,0.3);
+            display: flex;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            height: 100%;
+            width: 100%;
+        }
+
+        &.flipped{
+            .inner{
+                background: $black;
+                transform: rotateY(180deg);
+                transition: transform 0.6s, background 250ms 300ms ease-in-out;
+            }
+            .back{
+                animation: fadeIn 250ms 250ms ease-in-out forwards;
+
+                h4{
+                    color: $yellow;
+                    margin: 1rem 0;
+                    padding-right: 1.25rem;
+                }
+
+                dl,
+                i{
+                    color: $white;
+                }
+                
+                dl{
+                    padding-right: 1rem;
+                }
+            }
+        }
+
+        .front,
+        .back{
+            backface-visibility: hidden;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .front{
+            position: relative;
+            z-index: 2;
+        }
+
+        .back{
+            opacity: 0;
+            overflow-y: scroll;
+            padding: 0 1rem 1rem 1rem;
+            position:absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            transform: rotateY(180deg);
+            z-index: 1;
+
+            .flip-toggle{
+                float: right;
+                position: sticky; 
+                top: 0;
+                right: 0;
+
+                i{
+                    @extend button.action;
+                    background: transparent;
+                    cursor: pointer;
+                    padding: 0.5rem;
+                    position:relative;
+                    right: -1rem;
+                }
+            }
+        }
+
+        .content{
+            flex: 1;
+            padding-bottom: 0;
+        }
+    }
 }

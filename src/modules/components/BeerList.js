@@ -135,7 +135,7 @@ class BeerCard extends Component {
     render() {
         let beer = this.props.beer;
         return( 
-            <div className={this.state.flipped ? "card flipped" : "card"}>
+            <div className={this.state.flipped ? "card beer flipped" : "card beer"}>
                 <div className="inner">
                     <div className="front">
                         <div className="content"> 
