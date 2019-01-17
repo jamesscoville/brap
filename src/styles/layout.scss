@@ -38,6 +38,7 @@ main{
   flex: 15;
   flex-direction: column;
   margin: 10vw;
+  padding-bottom: 1rem;
 
   @media only screen and (min-width: $smallScreen){
     margin: 2rem 5rem;

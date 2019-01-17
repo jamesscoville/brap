@@ -3,6 +3,7 @@
     flex: 1;
     grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
     grid-gap: 2rem;
+    padding-bottom: 2rem;
 
     .image-container{
         min-height: 15.25rem;
